@@ -9,10 +9,10 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/:q&:appid', async (req, res) => {
+app.get('/:q', async (req, res) => {
     const q = req.params.q
-    const appid = req.params.appid
-    const url = `${process.env.WEATHER_APP_URI}?${q}&${appid}`
+    const appid = process.env.WEATHER_API_KEY
+    const url = `${process.env.WEATHER_APP_URI}?${q}&appid=${appid}`
     console.log(q, appid)
     const response = await fetch(url) // Await the fetch call
     const data = await response.json() // Parse the JSON response
