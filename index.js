@@ -7,12 +7,12 @@ const cors = require('cors')
 const port = process.env.PORT || 5000
 
 // Cancel out the automatic favicon search done by browser
-app.get('/favicon.ico', (req, res) => {
+app.get('/favicon.ico',cors(corsOptions), (req, res) => {
   res.status(204).end(); // Respond with No Content
 });
 
 // For testing purposes only - No need to remove
-app.get('/',cors(corsOptions), (req, res) => {
+app.get('/', cors(corsOptions), (req, res) => {
   res.send('Hello World!')
 })
 
