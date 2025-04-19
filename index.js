@@ -55,19 +55,7 @@ app.get('search/:q', cors(corsOptions), async (req, res) => {
 });
 
 // CORS setup 
-var whitelist = ['https://weather-backend-6kka.onrender.com']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
-
-// -------For testing purposes only - No need to remove. Works with URl searchs
-// var whitelist = ['http://localhost:5173', 'http://localhost:3000']
+// var whitelist = ['https://weather-backend-6kka.onrender.com']
 // var corsOptions = {
 //   origin: function (origin, callback) {
 //     if (whitelist.indexOf(origin) !== -1) {
@@ -77,6 +65,18 @@ var corsOptions = {
 //     }
 //   }
 // }
+
+// -------For testing purposes only - No need to remove. Testing on frontend for nextjs or remix
+var whitelist = ['http://localhost:5173', 'http://localhost:3000']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
