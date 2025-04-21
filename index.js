@@ -69,7 +69,7 @@ app.get('search/:q', cors(corsOptions), async (req, res) => {
 // }
 
 // -------For testing purposes only - No need to remove. Testing on frontend for nextjs or remix
-var whitelist = ['http://localhost:5173', 'http://localhost:3000']
+var whitelist = ['http://localhost:5173', 'http://localhost:3000', 'https://weather-backend-6kka.onrender.com']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
