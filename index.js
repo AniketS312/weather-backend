@@ -19,9 +19,9 @@ app.get('/', cors(corsOptions), (req, res) => {
 
 // Featch both weather and image data from the APIs
 app.get('/:q', cors(corsOptions), async (req, res) => {
-    const q = req.params.q
-    // Weather data fetching
-    const weatherUrl = `${process.env.WEATHER_APP_URI}?q=${q}&appid=${process.env.WEATHER_API_KEY}`
+    const q = new URLSearchParams(req.params.q)
+    const searchQuery = q.get('lat') && q.get('lon') ? {lat: q.get('lat'), lon: q.get('lon')} : q.get('q');   // Weather data fetching
+    const weatherUrl = `${process.env.WEATHER_APP_URI}?${searchQuery.lat && searchQuery.lon ? `lat=${searchQuery.lat}&lon=${searchQuery.lon}`: `q=${searchQuery}`}&appid=${process.env.WEATHER_API_KEY}`
     const weatherResponse = await fetch(weatherUrl) 
     const weatherData = await weatherResponse.json() 
     // Image data fetching
@@ -35,23 +35,22 @@ app.get('/:q', cors(corsOptions), async (req, res) => {
 
 });
 
+
 // duplicate of the above for testing purposes
 app.get('search/:q', cors(corsOptions), async (req, res) => {
-  const q = req.params.q
-  // Weather data fetching
-  const weatherUrl = `${process.env.WEATHER_APP_URI}?q=${q}&appid=${process.env.WEATHER_API_KEY}`
+  const q = new URLSearchParams(req.params.q)
+  const searchQuery = q.get('lat') && q.get('lon') ? {lat: q.get('lat'), lon: q.get('lon')} : q.get('q');   // Weather data fetching
+  const weatherUrl = `${process.env.WEATHER_APP_URI}?${searchQuery.lat && searchQuery.lon ? `lat=${searchQuery.lat}&lon=${searchQuery.lon}`: `q=${searchQuery}`}&appid=${process.env.WEATHER_API_KEY}`
   const weatherResponse = await fetch(weatherUrl) 
   const weatherData = await weatherResponse.json() 
   // Image data fetching
   const imageUrl = `${process.env.UNSPLASH_APP_URI}?client_id=${process.env.UNSPLASH_API_KEY}&query=${q}&orientation=landscape&per_page=5&page=1`
   const imageResponse = await fetch(imageUrl)
   const imageData = await imageResponse.json()
-  console.log(imageUrl)
   res.send({
     weather: weatherData,
     image: imageData
   })
-
 });
 
 // CORS setup 
