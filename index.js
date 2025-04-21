@@ -25,7 +25,8 @@ app.get('/:q', cors(corsOptions), async (req, res) => {
     const weatherResponse = await fetch(weatherUrl) 
     const weatherData = await weatherResponse.json() 
     // Image data fetching
-    const imageUrl = `${process.env.UNSPLASH_APP_URI}?client_id=${process.env.UNSPLASH_API_KEY}&query=${q}&orientation=landscape&per_page=5&page=1`
+    const cityName = weatherData.name
+    const imageUrl = `${process.env.UNSPLASH_APP_URI}?client_id=${process.env.UNSPLASH_API_KEY}&query=${cityName}&orientation=landscape&per_page=5&page=1`
     const imageResponse = await fetch(imageUrl)
     const imageData = await imageResponse.json()
     res.send({
@@ -44,13 +45,15 @@ app.get('search/:q', cors(corsOptions), async (req, res) => {
   const weatherResponse = await fetch(weatherUrl) 
   const weatherData = await weatherResponse.json() 
   // Image data fetching
-  const imageUrl = `${process.env.UNSPLASH_APP_URI}?client_id=${process.env.UNSPLASH_API_KEY}&query=${q}&orientation=landscape&per_page=5&page=1`
+  const cityName = weatherData.name
+  const imageUrl = `${process.env.UNSPLASH_APP_URI}?client_id=${process.env.UNSPLASH_API_KEY}&query=${cityName}&orientation=landscape&per_page=5&page=1`
   const imageResponse = await fetch(imageUrl)
   const imageData = await imageResponse.json()
   res.send({
     weather: weatherData,
     image: imageData
   })
+
 });
 
 // CORS setup 
