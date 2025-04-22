@@ -20,6 +20,7 @@ app.get('/', cors(corsOptions), (req, res) => {
 // Featch both weather and image data from the APIs
 app.get('/:q', cors(corsOptions), async (req, res) => {
     const q = new URLSearchParams(req.params.q)
+    // Set either an object representing Lan, Lon or a string representing the city name
     const searchQuery = q.get('lat') && q.get('lon') ? {lat: q.get('lat'), lon: q.get('lon')} : q.get('q');   // Weather data fetching
     const weatherUrl = `${process.env.WEATHER_APP_URI}?${searchQuery.lat && searchQuery.lon ? `lat=${searchQuery.lat}&lon=${searchQuery.lon}`: `q=${searchQuery}`}&appid=${process.env.WEATHER_API_KEY}`
     const weatherResponse = await fetch(weatherUrl) 
@@ -33,12 +34,11 @@ app.get('/:q', cors(corsOptions), async (req, res) => {
       weather: weatherData,
       image: imageData
     })
-
 });
 
 
 // duplicate of the above for testing purposes
-app.get('search/:q', cors(corsOptions), async (req, res) => {
+app.get('/search/:q', cors(corsOptions), async (req, res) => {
   const q = new URLSearchParams(req.params.q)
   const searchQuery = q.get('lat') && q.get('lon') ? {lat: q.get('lat'), lon: q.get('lon')} : q.get('q');   // Weather data fetching
   const weatherUrl = `${process.env.WEATHER_APP_URI}?${searchQuery.lat && searchQuery.lon ? `lat=${searchQuery.lat}&lon=${searchQuery.lon}`: `q=${searchQuery}`}&appid=${process.env.WEATHER_API_KEY}`
@@ -53,7 +53,6 @@ app.get('search/:q', cors(corsOptions), async (req, res) => {
     weather: weatherData,
     image: imageData
   })
-
 });
 
 // CORS setup 
